@@ -13,12 +13,19 @@
         from werkzeug.contrib.profiler import ProfilerMiddleware
         app = ProfilerMiddleware(app)
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
 import sys
 import time
 import os.path
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+    :license: BSD, see LICENSE for more details.
+"""
+import sys, time, os.path
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 try:
     try:
         from cProfile import Profile
@@ -31,7 +38,10 @@ except ImportError:
 
 
 class MergeStream(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """An object that redirects `write` calls to multiple streams.
     Use this to log to both `sys.stdout` and a file::
 
@@ -51,7 +61,10 @@ class MergeStream(object):
 
 
 class ProfilerMiddleware(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Simple profiler middleware.  Wraps a WSGI application and profiles
     a request.  This intentionally buffers the response so that timings are
     more exact.
@@ -101,11 +114,16 @@ class ProfilerMiddleware(object):
         p = Profile()
         start = time.time()
         p.runcall(runapp)
+<<<<<<< HEAD
         body = b''.join(response_body)
+=======
+        body = ''.join(response_body)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         elapsed = time.time() - start
 
         if self._profile_dir is not None:
             prof_filename = os.path.join(self._profile_dir,
+<<<<<<< HEAD
                                          '%s.%s.%06dms.%d.prof' % (
                                              environ['REQUEST_METHOD'],
                                              environ.get('PATH_INFO').strip(
@@ -113,6 +131,14 @@ class ProfilerMiddleware(object):
                                              elapsed * 1000.0,
                                              time.time()
                                          ))
+=======
+                    '%s.%s.%06dms.%d.prof' % (
+                environ['REQUEST_METHOD'],
+                environ.get('PATH_INFO').strip('/').replace('/', '.') or 'root',
+                elapsed * 1000.0,
+                time.time()
+            ))
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             p.dump_stats(prof_filename)
 
         else:

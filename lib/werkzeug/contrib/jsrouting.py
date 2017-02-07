@@ -6,7 +6,11 @@
     Addon module that allows to create a JavaScript function from a map
     that generates rules.
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 try:
@@ -26,13 +30,22 @@ from werkzeug._compat import iteritems
 def render_template(name_parts, rules, converters):
     result = u''
     if name_parts:
+<<<<<<< HEAD
         for idx in range(0, len(name_parts) - 1):
+=======
+        for idx in xrange(0, len(name_parts) - 1):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             name = u'.'.join(name_parts[:idx + 1])
             result += u"if (typeof %s === 'undefined') %s = {}\n" % (name, name)
         result += '%s = ' % '.'.join(name_parts)
     result += """(function (server_name, script_name, subdomain, url_scheme) {
+<<<<<<< HEAD
     var converters = [%(converters)s];
     var rules = %(rules)s;
+=======
+    var converters = %(converters)s;
+    var rules = $rules;
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     function in_array(array, value) {
         if (array.indexOf != undefined) {
             return array.indexOf(value) != -1;
@@ -163,9 +176,13 @@ def render_template(name_parts, rules, converters):
                    + '/' + lstrip(rv.path, '/');
         }
     };
+<<<<<<< HEAD
 })""" % {'converters': u', '.join(converters),
          'rules': rules}
 
+=======
+})""" % {'converters': u', '.join(converters)}
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     return result
 
 

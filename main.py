@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """`main` is the top level module for your Flask application."""
 
 # Data Exploration Byte Version 1
@@ -95,13 +96,32 @@ def about():
 def quality():
     template = JINJA_ENVIRONMENT.get_template('templates/quality.html')
     return template.render()
+=======
+from flask import Flask
+app = Flask(__name__)
+app.config['DEBUG'] = True
+
+# Note: We don't need to call run() since our application is embedded within
+# the App Engine WSGI application server.
+
+
+@app.route('/')
+def hello():
+    """Return a friendly HTTP greeting."""
+    return 'Hello World!'
+
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 @app.errorhandler(404)
 def page_not_found(e):
     """Return a custom 404 error."""
+<<<<<<< HEAD
     return 'Sorry, Nothing at this URL.', 404
 
 @app.errorhandler(500)
 def application_error(e):
     """Return a custom 500 error."""
     return 'Sorry, unexpected error: {}'.format(e), 500
+=======
+    return 'Sorry, nothing at this URL.', 404
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a

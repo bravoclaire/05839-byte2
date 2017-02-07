@@ -54,7 +54,11 @@
                 return e
 
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 import sys
@@ -66,14 +70,21 @@ werkzeug.exceptions = sys.modules[__name__]
 
 from werkzeug._internal import _get_environ
 from werkzeug._compat import iteritems, integer_types, text_type, \
+<<<<<<< HEAD
     implements_to_string
+=======
+     implements_to_string
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 from werkzeug.wrappers import Response
 
 
 @implements_to_string
 class HTTPException(Exception):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """
     Baseclass for all HTTP exceptions.  This exception can be called as WSGI
     application to render a default error page or you can catch the subclasses
@@ -95,7 +106,10 @@ class HTTPException(Exception):
         also is a subclass of `BadRequest`.
         """
         class newcls(cls, exception):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             def __init__(self, arg=None, *args, **kwargs):
                 cls.__init__(self, *args, **kwargs)
                 exception.__init__(self, arg)
@@ -163,7 +177,10 @@ class HTTPException(Exception):
 
 
 class BadRequest(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*400* `Bad Request`
 
     Raise if the browser sends something to the application the application
@@ -177,7 +194,10 @@ class BadRequest(HTTPException):
 
 
 class ClientDisconnected(BadRequest):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Internal exception that is raised if Werkzeug detects a disconnected
     client.  Since the client is already gone at that point attempting to
     send the error message to the client might not work and might ultimately
@@ -185,7 +205,11 @@ class ClientDisconnected(BadRequest):
     it is silenced by default as far as Werkzeug is concerned.
 
     Since disconnections cannot be reliably detected and are unspecified
+<<<<<<< HEAD
     by WSGI to a large extent this might or might not be raised if a client
+=======
+    by WSGI to a large extend this might or might not be raised if a client
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     is gone.
 
     .. versionadded:: 0.8
@@ -193,7 +217,10 @@ class ClientDisconnected(BadRequest):
 
 
 class SecurityError(BadRequest):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Raised if something triggers a security error.  This is otherwise
     exactly like a bad request error.
 
@@ -202,7 +229,10 @@ class SecurityError(BadRequest):
 
 
 class Unauthorized(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*401* `Unauthorized`
 
     Raise if the user is not authorized.  Also used if you want to use HTTP
@@ -218,7 +248,10 @@ class Unauthorized(HTTPException):
 
 
 class Forbidden(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*403* `Forbidden`
 
     Raise if the user doesn't have the permission for the requested resource
@@ -232,7 +265,10 @@ class Forbidden(HTTPException):
 
 
 class NotFound(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*404* `Not Found`
 
     Raise if a resource does not exist and never existed.
@@ -246,7 +282,10 @@ class NotFound(HTTPException):
 
 
 class MethodNotAllowed(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*405* `Method Not Allowed`
 
     Raise if the server used a method the resource does not handle.  For
@@ -273,7 +312,10 @@ class MethodNotAllowed(HTTPException):
 
 
 class NotAcceptable(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*406* `Not Acceptable`
 
     Raise if the server can't return any content conforming to the
@@ -290,7 +332,10 @@ class NotAcceptable(HTTPException):
 
 
 class RequestTimeout(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*408* `Request Timeout`
 
     Raise to signalize a timeout.
@@ -303,7 +348,10 @@ class RequestTimeout(HTTPException):
 
 
 class Conflict(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*409* `Conflict`
 
     Raise to signal that a request cannot be completed because it conflicts
@@ -319,21 +367,33 @@ class Conflict(HTTPException):
 
 
 class Gone(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*410* `Gone`
 
     Raise if a resource existed previously and went away without new location.
     """
     code = 410
     description = (
+<<<<<<< HEAD
         'The requested URL is no longer available on this server and there '
         'is no forwarding address. If you followed a link from a foreign '
         'page, please contact the author of this page.'
+=======
+        'The requested URL is no longer available on this server and '
+        'there is no forwarding address.</p><p>If you followed a link '
+        'from a foreign page, please contact the author of this page.'
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     )
 
 
 class LengthRequired(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*411* `Length Required`
 
     Raise if the browser submitted data but no ``Content-Length`` header which
@@ -347,7 +407,10 @@ class LengthRequired(HTTPException):
 
 
 class PreconditionFailed(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*412* `Precondition Failed`
 
     Status code used in combination with ``If-Match``, ``If-None-Match``, or
@@ -361,7 +424,10 @@ class PreconditionFailed(HTTPException):
 
 
 class RequestEntityTooLarge(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*413* `Request Entity Too Large`
 
     The status code one should return if the data submitted exceeded a given
@@ -374,7 +440,10 @@ class RequestEntityTooLarge(HTTPException):
 
 
 class RequestURITooLarge(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*414* `Request URI Too Large`
 
     Like *413* but for too long URLs.
@@ -387,7 +456,10 @@ class RequestURITooLarge(HTTPException):
 
 
 class UnsupportedMediaType(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*415* `Unsupported Media Type`
 
     The status code returned if the server is unable to handle the media type
@@ -401,7 +473,10 @@ class UnsupportedMediaType(HTTPException):
 
 
 class RequestedRangeNotSatisfiable(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*416* `Requested Range Not Satisfiable`
 
     The client asked for a part of the file that lies beyond the end
@@ -416,7 +491,10 @@ class RequestedRangeNotSatisfiable(HTTPException):
 
 
 class ExpectationFailed(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*417* `Expectation Failed`
 
     The server cannot meet the requirements of the Expect request-header.
@@ -430,7 +508,10 @@ class ExpectationFailed(HTTPException):
 
 
 class ImATeapot(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*418* `I'm a teapot`
 
     The server should return this if it is a teapot and someone attempted
@@ -445,7 +526,10 @@ class ImATeapot(HTTPException):
 
 
 class UnprocessableEntity(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*422* `Unprocessable Entity`
 
     Used if the request is well formed, but the instructions are otherwise
@@ -459,7 +543,10 @@ class UnprocessableEntity(HTTPException):
 
 
 class PreconditionRequired(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*428* `Precondition Required`
 
     The server requires this request to be conditional, typically to prevent
@@ -478,7 +565,10 @@ class PreconditionRequired(HTTPException):
 
 
 class TooManyRequests(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*429* `Too Many Requests`
 
     The server is limiting the rate at which this user receives responses, and
@@ -494,7 +584,10 @@ class TooManyRequests(HTTPException):
 
 
 class RequestHeaderFieldsTooLarge(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*431* `Request Header Fields Too Large`
 
     The server refuses to process the request because the header fields are too
@@ -508,7 +601,10 @@ class RequestHeaderFieldsTooLarge(HTTPException):
 
 
 class InternalServerError(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*500* `Internal Server Error`
 
     Raise if an internal server error occurred.  This is a good fallback if an
@@ -523,7 +619,10 @@ class InternalServerError(HTTPException):
 
 
 class NotImplemented(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*501* `Not Implemented`
 
     Raise if the application does not support the action requested by the
@@ -537,7 +636,10 @@ class NotImplemented(HTTPException):
 
 
 class BadGateway(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*502* `Bad Gateway`
 
     If you do proxying in your application you should return this status code
@@ -552,7 +654,10 @@ class BadGateway(HTTPException):
 
 
 class ServiceUnavailable(HTTPException):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """*503* `Service Unavailable`
 
     Status code you should return if a service is temporarily unavailable.
@@ -565,6 +670,7 @@ class ServiceUnavailable(HTTPException):
     )
 
 
+<<<<<<< HEAD
 class GatewayTimeout(HTTPException):
 
     """*504* `Gateway Timeout`
@@ -608,12 +714,28 @@ def _find_exceptions():
         if old_obj is not None and issubclass(obj, old_obj):
             continue
         default_exceptions[obj.code] = obj
+=======
+default_exceptions = {}
+__all__ = ['HTTPException']
+
+def _find_exceptions():
+    for name, obj in iteritems(globals()):
+        try:
+            if getattr(obj, 'code', None) is not None:
+                default_exceptions[obj.code] = obj
+                __all__.append(obj.__name__)
+        except TypeError: # pragma: no cover
+            continue
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 _find_exceptions()
 del _find_exceptions
 
 
 class Aborter(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """
     When passed a dict of code -> exception items it can be used as
     callable that raises exceptions.  If the first argument to the

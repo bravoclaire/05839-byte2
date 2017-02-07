@@ -16,7 +16,11 @@
 
     It's strongly recommended to use it during development.
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 from urlparse import urlparse
@@ -29,19 +33,29 @@ from werkzeug._compat import string_types
 
 
 class WSGIWarning(Warning):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Warning class for WSGI warnings."""
 
 
 class HTTPWarning(Warning):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Warning class for HTTP warnings."""
 
 
 def check_string(context, obj, stacklevel=3):
     if type(obj) is not str:
         warn(WSGIWarning('%s requires bytestrings, got %s' %
+<<<<<<< HEAD
                          (context, obj.__class__.__name__)))
+=======
+            (context, obj.__class__.__name__)))
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 class InputStream(object):
@@ -162,7 +176,11 @@ class GuardedIterator(object):
                     if key not in ('expires', 'content-location') and \
                        is_entity_header(key):
                         warn(HTTPWarning('entity header %r found in 304 '
+<<<<<<< HEAD
                                          'response' % key))
+=======
+                            'response' % key))
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                 if bytes_sent:
                     warn(HTTPWarning('304 responses must not have a body'))
             elif 100 <= status_code < 200 or status_code == 204:
@@ -186,7 +204,10 @@ class GuardedIterator(object):
 
 
 class LintMiddleware(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """This middleware wraps an application and warns on common errors.
     Among other thing it currently checks for the following problems:
 
@@ -223,7 +244,11 @@ class LintMiddleware(object):
                     'wsgi.run_once'):
             if key not in environ:
                 warn(WSGIWarning('required environment key %r not found'
+<<<<<<< HEAD
                                  % key), stacklevel=3)
+=======
+                     % key), stacklevel=3)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         if environ['wsgi.version'] != (1, 0):
             warn(WSGIWarning('environ is not a WSGI 1.0 environ'),
                  stacklevel=3)
@@ -237,6 +262,10 @@ class LintMiddleware(object):
             warn(WSGIWarning('PATH_INFO does not start with a slash: %r'
                              % path_info), stacklevel=3)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     def check_start_response(self, status, headers, exc_info):
         check_string('status', status)
         status_code = status.split(None, 1)[0]
@@ -263,7 +292,11 @@ class LintMiddleware(object):
             if name.lower() == 'status':
                 warn(WSGIWarning('The status header is not supported due to '
                                  'conflicts with the CGI spec.'),
+<<<<<<< HEAD
                      stacklevel=3)
+=======
+                                 stacklevel=3)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
         if exc_info is not None and not isinstance(exc_info, tuple):
             warn(WSGIWarning('invalid value for exc_info'), stacklevel=3)
@@ -316,7 +349,11 @@ class LintMiddleware(object):
         def checking_start_response(*args, **kwargs):
             if len(args) not in (2, 3):
                 warn(WSGIWarning('Invalid number of arguments: %s, expected '
+<<<<<<< HEAD
                                  '2 or 3' % len(args), stacklevel=2))
+=======
+                     '2 or 3' % len(args), stacklevel=2))
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             if kwargs:
                 warn(WSGIWarning('no keyword arguments allowed.'))
 

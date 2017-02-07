@@ -5,7 +5,11 @@
 
     This module provides various traceback related utility functions.
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD.
 """
 import re
@@ -20,6 +24,7 @@ from tokenize import TokenError
 
 from werkzeug.utils import cached_property, escape
 from werkzeug.debug.console import Console
+<<<<<<< HEAD
 from werkzeug._compat import range_type, PY2, text_type, string_types, \
     to_native, to_unicode
 from werkzeug.filesystem import get_filesystem_encoding
@@ -29,6 +34,15 @@ _coding_re = re.compile(br'coding[:=]\s*([-\w.]+)')
 _line_re = re.compile(br'^(.*?)$(?m)')
 _funcdef_re = re.compile(r'^(\s*def\s)|(.*(?<!\w)lambda(:|\s))|^(\s*@)')
 UTF8_COOKIE = b'\xef\xbb\xbf'
+=======
+from werkzeug._compat import range_type, PY2, text_type, string_types
+
+
+_coding_re = re.compile(r'coding[:=]\s*([-\w.]+)')
+_line_re = re.compile(r'^(.*?)$(?m)')
+_funcdef_re = re.compile(r'^(\s*def\s)|(.*(?<!\w)lambda(:|\s))|^(\s*@)')
+UTF8_COOKIE = '\xef\xbb\xbf'
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 system_exceptions = (SystemExit, KeyboardInterrupt)
 try:
@@ -43,6 +57,7 @@ HEADER = u'''\
 <html>
   <head>
     <title>%(title)s // Werkzeug Debugger</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="?__debugger__=yes&amp;cmd=resource&amp;f=style.css"
         type="text/css">
     <!-- We need to make sure this has a favicon so that the debugger does
@@ -52,11 +67,23 @@ HEADER = u'''\
         href="?__debugger__=yes&amp;cmd=resource&amp;f=console.png">
     <script src="?__debugger__=yes&amp;cmd=resource&amp;f=jquery.js"></script>
     <script src="?__debugger__=yes&amp;cmd=resource&amp;f=debugger.js"></script>
+=======
+    <link rel="stylesheet" href="?__debugger__=yes&amp;cmd=resource&amp;f=style.css" type="text/css">
+    <!-- We need to make sure this has a favicon so that the debugger does not by
+         accident trigger a request to /favicon.ico which might change the application
+         state. -->
+    <link rel="shortcut icon" href="?__debugger__=yes&amp;cmd=resource&amp;f=console.png">
+    <script type="text/javascript" src="?__debugger__=yes&amp;cmd=resource&amp;f=jquery.js"></script>
+    <script type="text/javascript" src="?__debugger__=yes&amp;cmd=resource&amp;f=debugger.js"></script>
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     <script type="text/javascript">
       var TRACEBACK = %(traceback_id)d,
           CONSOLE_MODE = %(console)s,
           EVALEX = %(evalex)s,
+<<<<<<< HEAD
           EVALEX_TRUSTED = %(evalex_trusted)s,
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
           SECRET = "%(secret)s";
     </script>
   </head>
@@ -69,6 +96,7 @@ FOOTER = u'''\
         friendly Werkzeug powered traceback interpreter.
       </div>
     </div>
+<<<<<<< HEAD
 
     <div class="pin-prompt">
       <div class="inner">
@@ -84,6 +112,8 @@ FOOTER = u'''\
         </form>
       </div>
     </div>
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
   </body>
 </html>
 '''
@@ -144,10 +174,19 @@ FRAME_HTML = u'''\
   <h4>File <cite class="filename">"%(filename)s"</cite>,
       line <em class="line">%(lineno)s</em>,
       in <code class="function">%(function_name)s</code></h4>
+<<<<<<< HEAD
   <div class="source">%(lines)s</div>
 </div>
 '''
 
+=======
+  <pre>%(current_line)s</pre>
+</div>
+'''
+
+SOURCE_TABLE_HTML = u'<table class=source>%s</table>'
+
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 SOURCE_LINE_HTML = u'''\
 <tr class="%(classes)s">
   <td class=lineno>%(lineno)s</td>
@@ -156,6 +195,7 @@ SOURCE_LINE_HTML = u'''\
 '''
 
 
+<<<<<<< HEAD
 def render_console_html(secret, evalex_trusted=True):
     return CONSOLE_HTML % {
         'evalex':           'true',
@@ -164,6 +204,15 @@ def render_console_html(secret, evalex_trusted=True):
         'title':            'Console',
         'secret':           secret,
         'traceback_id': -1
+=======
+def render_console_html(secret):
+    return CONSOLE_HTML % {
+        'evalex':           'true',
+        'console':          'true',
+        'title':            'Console',
+        'secret':           secret,
+        'traceback_id':     -1
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     }
 
 
@@ -288,7 +337,11 @@ class Traceback(object):
             logfile = sys.stderr
         tb = self.plaintext.rstrip() + u'\n'
         if PY2:
+<<<<<<< HEAD
             tb = tb.encode('utf-8', 'replace')
+=======
+            tb.encode('utf-8', 'replace')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         logfile.write(tb)
 
     def paste(self):
@@ -346,13 +399,20 @@ class Traceback(object):
             'description':  description_wrapper % escape(self.exception)
         }
 
+<<<<<<< HEAD
     def render_full(self, evalex=False, secret=None,
                     evalex_trusted=True):
+=======
+    def render_full(self, evalex=False, secret=None):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         """Render the Full HTML page with the traceback info."""
         exc = escape(self.exception)
         return PAGE_HTML % {
             'evalex':           evalex and 'true' or 'false',
+<<<<<<< HEAD
             'evalex_trusted':   evalex_trusted and 'true' or 'false',
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             'console':          'false',
             'title':            exc,
             'exception':        exc,
@@ -384,7 +444,10 @@ class Traceback(object):
 
 
 class Frame(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """A single frame in a traceback."""
 
     def __init__(self, exc_type, exc_value, tb):
@@ -399,7 +462,11 @@ class Frame(object):
         # if it's a file on the file system resolve the real filename.
         if os.path.isfile(fn):
             fn = os.path.realpath(fn)
+<<<<<<< HEAD
         self.filename = to_unicode(fn, get_filesystem_encoding())
+=======
+        self.filename = fn
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         self.module = self.globals.get('__name__')
         self.loader = self.globals.get('__loader__')
         self.code = tb.tb_frame.f_code
@@ -421,6 +488,7 @@ class Frame(object):
             'filename':         escape(self.filename),
             'lineno':           self.lineno,
             'function_name':    escape(self.function_name),
+<<<<<<< HEAD
             'lines':            self.render_line_context(),
         }
 
@@ -444,6 +512,11 @@ class Frame(object):
 
         return '\n'.join(rv)
 
+=======
+            'current_line':     escape(self.current_line.strip())
+        }
+
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     def get_annotated_lines(self):
         """Helper function that returns lines with extra information."""
         lines = [Line(idx + 1, x) for idx, x in enumerate(self.sourcelines)]
@@ -471,10 +544,22 @@ class Frame(object):
 
         return lines
 
+<<<<<<< HEAD
     def eval(self, code, mode='single'):
         """Evaluate code in the context of the frame."""
         if isinstance(code, string_types):
             if PY2 and isinstance(code, unicode):  # noqa
+=======
+    def render_source(self):
+        """Render the sourcecode."""
+        return SOURCE_TABLE_HTML % u'\n'.join(line.render() for line in
+                                              self.get_annotated_lines())
+
+    def eval(self, code, mode='single'):
+        """Evaluate code in the context of the frame."""
+        if isinstance(code, string_types):
+            if PY2 and isinstance(code, unicode):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                 code = UTF8_COOKIE + code.encode('utf-8')
             code = compile(code, '<interactive>', mode)
         return eval(code, self.globals, self.locals)
@@ -497,8 +582,12 @@ class Frame(object):
 
         if source is None:
             try:
+<<<<<<< HEAD
                 f = open(to_native(self.filename, get_filesystem_encoding()),
                          mode='rb')
+=======
+                f = open(self.filename)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             except IOError:
                 return []
             try:
@@ -517,7 +606,11 @@ class Frame(object):
             source = source[3:]
         else:
             for idx, match in enumerate(_line_re.finditer(source)):
+<<<<<<< HEAD
                 match = _coding_re.search(match.group())
+=======
+                match = _line_re.search(match.group())
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                 if match is not None:
                     charset = match.group(1)
                     break
@@ -525,7 +618,10 @@ class Frame(object):
                     break
 
         # on broken cookies we fall back to utf-8 too
+<<<<<<< HEAD
         charset = to_native(charset)
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         try:
             codecs.lookup(charset)
         except LookupError:
@@ -533,6 +629,7 @@ class Frame(object):
 
         return source.decode(charset, 'replace').splitlines()
 
+<<<<<<< HEAD
     def get_context_lines(self, context=5):
         before = self.sourcelines[self.lineno - context - 1:self.lineno - 1]
         past = self.sourcelines[self.lineno:self.lineno + context]
@@ -542,6 +639,8 @@ class Frame(object):
             past,
         )
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     @property
     def current_line(self):
         try:

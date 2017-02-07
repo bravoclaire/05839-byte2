@@ -5,7 +5,11 @@
 
     Interactive console support.
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD.
 """
 import sys
@@ -21,7 +25,10 @@ _local = Local()
 
 
 class HTMLStringO(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """A StringO version that HTML escapes on write."""
 
     def __init__(self):
@@ -64,7 +71,10 @@ class HTMLStringO(object):
 
 
 class ThreadedStream(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Thread-local wrapper for sys.stdout for the interactive console."""
 
     def push():
@@ -138,7 +148,10 @@ class _ConsoleLoader(object):
 
 def _wrap_compiler(console):
     compile = console.compile
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     def func(source, filename, symbol):
         code = compile(source, filename, symbol)
         console.loader.register(code, source)
@@ -165,7 +178,11 @@ class _InteractiveConsole(code.InteractiveInterpreter):
         try:
             source_to_eval = ''.join(self.buffer + [source])
             if code.InteractiveInterpreter.runsource(self,
+<<<<<<< HEAD
                                                      source_to_eval, '<debugger>', 'single'):
+=======
+               source_to_eval, '<debugger>', 'single'):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                 self.more = True
                 self.buffer.append(source)
             else:
@@ -196,7 +213,10 @@ class _InteractiveConsole(code.InteractiveInterpreter):
 
 
 class Console(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """An interactive console."""
 
     def __init__(self, globals=None, locals=None):

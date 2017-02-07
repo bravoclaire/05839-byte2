@@ -5,6 +5,7 @@
 
     WSGI application traceback debugger.
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
     :license: BSD, see LICENSE for more details.
 """
@@ -37,6 +38,26 @@ PIN_TIME = 60 * 60 * 8
 
 class _ConsoleFrame(object):
 
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+    :license: BSD, see LICENSE for more details.
+"""
+import json
+import mimetypes
+from os.path import join, dirname, basename, isfile
+from werkzeug.wrappers import BaseRequest as Request, BaseResponse as Response
+from werkzeug.debug.tbtools import get_current_traceback, render_console_html
+from werkzeug.debug.console import Console
+from werkzeug.security import gen_salt
+
+
+#: import this here because it once was documented as being available
+#: from this module.  In case there are users left ...
+from werkzeug.debug.repr import debug_repr
+
+
+class _ConsoleFrame(object):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Helper class so that we can reuse the frame console code for the
     standalone console.
     """
@@ -46,6 +67,7 @@ class _ConsoleFrame(object):
         self.id = 0
 
 
+<<<<<<< HEAD
 def get_pin_and_cookie_name(app):
     """Given an application object this returns a semi-stable 9 digit pin
     code and a random key.  The hope is that this is stable between
@@ -110,6 +132,8 @@ def get_pin_and_cookie_name(app):
     return rv, cookie_name
 
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 class DebuggedApplication(object):
     """Enables debugging support for a given application::
 
@@ -136,6 +160,7 @@ class DebuggedApplication(object):
     :param show_hidden_frames: by default hidden traceback frames are skipped.
                                You can show them by setting this parameter
                                to `True`.
+<<<<<<< HEAD
     :param pin_security: can be used to disable the pin based security system.
     :param pin_logging: enables the logging of the pin system.
     """
@@ -144,11 +169,25 @@ class DebuggedApplication(object):
                  console_path='/console', console_init_func=None,
                  show_hidden_frames=False, lodgeit_url=None,
                  pin_security=True, pin_logging=True):
+=======
+    """
+
+    # this class is public
+    __module__ = 'werkzeug'
+
+    def __init__(self, app, evalex=False, request_key='werkzeug.request',
+                 console_path='/console', console_init_func=None,
+                 show_hidden_frames=False, lodgeit_url=None):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         if lodgeit_url is not None:
             from warnings import warn
             warn(DeprecationWarning('Werkzeug now pastes into gists.'))
         if not console_init_func:
+<<<<<<< HEAD
             console_init_func = None
+=======
+            console_init_func = dict
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         self.app = app
         self.evalex = evalex
         self.frames = {}
@@ -158,6 +197,7 @@ class DebuggedApplication(object):
         self.console_init_func = console_init_func
         self.show_hidden_frames = show_hidden_frames
         self.secret = gen_salt(20)
+<<<<<<< HEAD
         self._failed_pin_auth = 0
 
         self.pin_logging = pin_logging
@@ -191,6 +231,8 @@ class DebuggedApplication(object):
         if not hasattr(self, '_pin_cookie'):
             self._pin, self._pin_cookie = get_pin_and_cookie_name(self.app)
         return self._pin_cookie
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     def debug_application(self, environ, start_response):
         """Run the application and conserve the traceback frames."""
@@ -204,9 +246,15 @@ class DebuggedApplication(object):
         except Exception:
             if hasattr(app_iter, 'close'):
                 app_iter.close()
+<<<<<<< HEAD
             traceback = get_current_traceback(
                 skip=1, show_hidden_frames=self.show_hidden_frames,
                 ignore_system_exceptions=True)
+=======
+            traceback = get_current_traceback(skip=1, show_hidden_frames=
+                                              self.show_hidden_frames,
+                                              ignore_system_exceptions=True)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             for frame in traceback.frames:
                 self.frames[frame.id] = frame
             self.tracebacks[traceback.id] = traceback
@@ -228,11 +276,17 @@ class DebuggedApplication(object):
                     'response at a point where response headers were already '
                     'sent.\n')
             else:
+<<<<<<< HEAD
                 is_trusted = self.is_trusted(environ)
                 yield traceback.render_full(evalex=self.evalex,
                                             evalex_trusted=is_trusted,
                                             secret=self.secret) \
                     .encode('utf-8', 'replace')
+=======
+                yield traceback.render_full(evalex=self.evalex,
+                                            secret=self.secret) \
+                               .encode('utf-8', 'replace')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
             traceback.log(environ['wsgi.errors'])
 
@@ -243,6 +297,7 @@ class DebuggedApplication(object):
     def display_console(self, request):
         """Display a standalone shell."""
         if 0 not in self.frames:
+<<<<<<< HEAD
             if self.console_init_func is None:
                 ns = {}
             else:
@@ -252,6 +307,10 @@ class DebuggedApplication(object):
         is_trusted = self.is_trusted(request.environ)
         return Response(render_console_html(secret=self.secret,
                                             evalex_trusted=is_trusted),
+=======
+            self.frames[0] = _ConsoleFrame(self.console_init_func())
+        return Response(render_console_html(secret=self.secret),
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                         mimetype='text/html')
 
     def paste_traceback(self, request, traceback):
@@ -259,6 +318,13 @@ class DebuggedApplication(object):
         rv = traceback.paste()
         return Response(json.dumps(rv), mimetype='application/json')
 
+<<<<<<< HEAD
+=======
+    def get_source(self, request, frame):
+        """Render the source viewer."""
+        return Response(frame.render_source(), mimetype='text/html')
+
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     def get_resource(self, request, filename):
         """Return a static resource from the shared folder."""
         filename = join(dirname(__file__), 'shared', basename(filename))
@@ -272,6 +338,7 @@ class DebuggedApplication(object):
                 f.close()
         return Response('Not Found', status=404)
 
+<<<<<<< HEAD
     def is_trusted(self, environ):
         """Checks if the request passed the pin test."""
         if self.pin is None:
@@ -317,6 +384,8 @@ class DebuggedApplication(object):
             _log('info', ' * Debugger pin code: %s' % self.pin)
         return Response('')
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     def __call__(self, environ, start_response):
         """Dispatch the requests."""
         # important: don't ever access a function here that reads the incoming
@@ -333,6 +402,7 @@ class DebuggedApplication(object):
             if cmd == 'resource' and arg:
                 response = self.get_resource(request, arg)
             elif cmd == 'paste' and traceback is not None and \
+<<<<<<< HEAD
                     secret == self.secret:
                 response = self.paste_traceback(request, traceback)
             elif cmd == 'pinauth' and secret == self.secret:
@@ -345,5 +415,16 @@ class DebuggedApplication(object):
                 response = self.execute_command(request, cmd, frame)
         elif self.evalex and self.console_path is not None and \
                 request.path == self.console_path:
+=======
+                 secret == self.secret:
+                response = self.paste_traceback(request, traceback)
+            elif cmd == 'source' and frame and self.secret == secret:
+                response = self.get_source(request, frame)
+            elif self.evalex and cmd is not None and frame is not None and \
+                 self.secret == secret:
+                response = self.execute_command(request, cmd, frame)
+        elif self.evalex and self.console_path is not None and \
+           request.path == self.console_path:
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             response = self.display_console(request)
         return response(environ, start_response)

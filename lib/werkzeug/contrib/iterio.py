@@ -36,7 +36,11 @@ r"""
 
     .. _greenlet: http://codespeak.net/py/dist/greenlet.html
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 try:
@@ -64,7 +68,10 @@ def _newline(reference_string):
 
 @implements_iterator
 class IterIO(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Instances of this object implement an interface compatible with the
     standard Python :class:`file` object.  Streams are either read-only or
     write-only depending on how the object is created.
@@ -161,7 +168,10 @@ class IterIO(object):
 
 
 class IterI(IterIO):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Convert an stream into an iterator."""
 
     def __new__(cls, func, sentinel=''):
@@ -216,7 +226,10 @@ class IterI(IterIO):
 
 
 class IterO(IterIO):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Iter output.  Wrap an iterator and give it a stream like interface."""
 
     def __new__(cls, gen, sentinel=''):
@@ -308,10 +321,14 @@ class IterO(IterIO):
             nl_pos = self._buf.find(_newline(self._buf), self.pos)
         buf = []
         try:
+<<<<<<< HEAD
             if self._buf is None:
                 pos = self.pos
             else:
                 pos = len(self._buf)
+=======
+            pos = self.pos
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             while nl_pos < 0:
                 item = next(self._gen)
                 local_pos = item.find(_newline(item))

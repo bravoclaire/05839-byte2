@@ -5,11 +5,19 @@
 
     This module implements WSGI related helpers.
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 import re
 import os
+<<<<<<< HEAD
+=======
+import sys
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 import posixpath
 import mimetypes
 from itertools import chain
@@ -19,12 +27,20 @@ from datetime import datetime
 from functools import partial, update_wrapper
 
 from werkzeug._compat import iteritems, text_type, string_types, \
+<<<<<<< HEAD
     implements_iterator, make_literal_wrapper, to_unicode, to_bytes, \
     wsgi_get_bytes, try_coerce_native, PY2
 from werkzeug._internal import _empty_stream, _encode_idna
 from werkzeug.http import is_resource_modified, http_date
 from werkzeug.urls import uri_to_iri, url_quote, url_parse, url_join
 from werkzeug.filesystem import get_filesystem_encoding
+=======
+     implements_iterator, make_literal_wrapper, to_unicode, to_bytes, \
+     wsgi_get_bytes, try_coerce_native, PY2
+from werkzeug._internal import _empty_stream, _encode_idna
+from werkzeug.http import is_resource_modified, http_date
+from werkzeug.urls import uri_to_iri, url_quote, url_parse, url_join
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 def responder(f):
@@ -42,8 +58,13 @@ def responder(f):
 
 def get_current_url(environ, root_only=False, strip_querystring=False,
                     host_only=False, trusted_hosts=None):
+<<<<<<< HEAD
     """A handy helper function that recreates the full URL as IRI for the
     current request or parts of it.  Here an example:
+=======
+    """A handy helper function that recreates the full URL for the current
+    request or parts of it.  Here an example:
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     >>> from werkzeug.test import create_environ
     >>> env = create_environ("/?param=foo", "http://localhost/script")
@@ -60,6 +81,7 @@ def get_current_url(environ, root_only=False, strip_querystring=False,
     If the host is not in there it will raise a
     :exc:`~werkzeug.exceptions.SecurityError`.
 
+<<<<<<< HEAD
     Note that the string returned might contain unicode characters as the
     representation is an IRI not an URI.  If you need an ASCII only
     representation you can use the :func:`~werkzeug.urls.iri_to_uri`
@@ -69,6 +91,8 @@ def get_current_url(environ, root_only=False, strip_querystring=False,
     >>> iri_to_uri(get_current_url(env))
     'http://localhost/script/?param=foo'
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :param environ: the WSGI environment to get the current URL from.
     :param root_only: set `True` if you only want the root URL.
     :param strip_querystring: set to `True` if you don't want the querystring.
@@ -129,6 +153,7 @@ def host_is_trusted(hostname, trusted_list):
 
 
 def get_host(environ, trusted_hosts=None):
+<<<<<<< HEAD
     """Return the real host for the given WSGI environment.  This first checks
     the `X-Forwarded-Host` header, then the normal `Host` header, and finally
     the `SERVER_NAME` environment variable (using the first one it finds).
@@ -136,13 +161,23 @@ def get_host(environ, trusted_hosts=None):
     Optionally it verifies that the host is in a list of trusted hosts.
     If the host is not in there it will raise a
     :exc:`~werkzeug.exceptions.SecurityError`.
+=======
+    """Return the real host for the given WSGI environment.  This takes care
+    of the `X-Forwarded-Host` header.  Optionally it verifies that the host
+    is in a list of trusted hosts.  If the host is not in there it will raise
+    a :exc:`~werkzeug.exceptions.SecurityError`.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     :param environ: the WSGI environment to get the host of.
     :param trusted_hosts: a list of trusted hosts, see :func:`host_is_trusted`
                           for more information.
     """
     if 'HTTP_X_FORWARDED_HOST' in environ:
+<<<<<<< HEAD
         rv = environ['HTTP_X_FORWARDED_HOST'].split(',', 1)[0].strip()
+=======
+        rv = environ['HTTP_X_FORWARDED_HOST'].split(',')[0].strip()
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     elif 'HTTP_HOST' in environ:
         rv = environ['HTTP_HOST']
     else:
@@ -182,7 +217,11 @@ def get_input_stream(environ, safe_fallback=True):
     .. versionadded:: 0.9
 
     :param environ: the WSGI environ to fetch the stream from.
+<<<<<<< HEAD
     :param safe: indicates whether the function should use an empty
+=======
+    :param safe: indicates weather the function should use an empty
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                  stream as safe fallback or just return the original
                  WSGI input stream if it can't wrap it safely.  The
                  default is to return an empty string in those cases.
@@ -191,7 +230,11 @@ def get_input_stream(environ, safe_fallback=True):
     content_length = get_content_length(environ)
 
     # A wsgi extension that tells us if the input is terminated.  In
+<<<<<<< HEAD
     # that case we return the stream unchanged as we know we can safely
+=======
+    # that case we return the stream unchanged as we know we can savely
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     # read it until the end.
     if environ.get('wsgi.input_terminated'):
         return stream
@@ -409,7 +452,11 @@ def extract_path_info(environ_or_baseurl, path_or_url, charset='utf-8',
             if scheme not in (u'http', u'https'):
                 return None
     else:
+<<<<<<< HEAD
         if not (base_scheme in (u'http', u'https') and
+=======
+        if not (base_scheme in (u'http', u'https') and \
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                 base_scheme == cur_scheme):
             return None
 
@@ -426,7 +473,10 @@ def extract_path_info(environ_or_baseurl, path_or_url, charset='utf-8',
 
 
 class SharedDataMiddleware(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """A WSGI middleware that provides static content for development
     environments or simple server setups. Usage is quite simple::
 
@@ -479,7 +529,11 @@ class SharedDataMiddleware(object):
     :param disallow: a list of :func:`~fnmatch.fnmatch` rules.
     :param fallback_mimetype: the fallback mimetype for unknown files.
     :param cache: enable or disable caching headers.
+<<<<<<< HEAD
     :param cache_timeout: the cache timeout in seconds for the headers.
+=======
+    :Param cache_timeout: the cache timeout in seconds for the headers.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """
 
     def __init__(self, app, exports, disallow=None, cache=True,
@@ -523,12 +577,19 @@ class SharedDataMiddleware(object):
 
     def get_package_loader(self, package, package_path):
         from pkg_resources import DefaultProvider, ResourceManager, \
+<<<<<<< HEAD
             get_provider
+=======
+             get_provider
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         loadtime = datetime.utcnow()
         provider = get_provider(package)
         manager = ResourceManager()
         filesystem_bound = isinstance(provider, DefaultProvider)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         def loader(path):
             if path is None:
                 return None, None
@@ -559,7 +620,11 @@ class SharedDataMiddleware(object):
 
     def generate_etag(self, mtime, file_size, real_filename):
         if not isinstance(real_filename, bytes):
+<<<<<<< HEAD
             real_filename = real_filename.encode(get_filesystem_encoding())
+=======
+            real_filename = real_filename.encode(sys.getfilesystemencoding())
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         return 'wzsdm-%d-%s-%s' % (
             mktime(mtime.timetuple()),
             file_size,
@@ -569,14 +634,23 @@ class SharedDataMiddleware(object):
     def __call__(self, environ, start_response):
         cleaned_path = get_path_info(environ)
         if PY2:
+<<<<<<< HEAD
             cleaned_path = cleaned_path.encode(get_filesystem_encoding())
+=======
+            cleaned_path = cleaned_path.encode(sys.getfilesystemencoding())
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         # sanitize the path for non unix systems
         cleaned_path = cleaned_path.strip('/')
         for sep in os.sep, os.altsep:
             if sep and sep != '/':
                 cleaned_path = cleaned_path.replace(sep, '/')
+<<<<<<< HEAD
         path = '/' + '/'.join(x for x in cleaned_path.split('/')
                               if x and x != '..')
+=======
+        path = '/'.join([''] + [x for x in cleaned_path.split('/')
+                                if x and x != '..'])
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         file_loader = None
         for search_path, loader in iteritems(self.exports):
             if search_path == path:
@@ -622,7 +696,10 @@ class SharedDataMiddleware(object):
 
 
 class DispatcherMiddleware(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Allows one to mount middlewares or applications in a WSGI application.
     This is useful if you want to combine multiple WSGI applications::
 
@@ -643,8 +720,14 @@ class DispatcherMiddleware(object):
             if script in self.mounts:
                 app = self.mounts[script]
                 break
+<<<<<<< HEAD
             script, last_item = script.rsplit('/', 1)
             path_info = '/%s%s' % (last_item, path_info)
+=======
+            items = script.split('/')
+            script = '/'.join(items[:-1])
+            path_info = '/%s%s' % (items[-1], path_info)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         else:
             app = self.mounts.get(script, self.app)
         original_script_name = environ.get('SCRIPT_NAME', '')
@@ -655,7 +738,10 @@ class DispatcherMiddleware(object):
 
 @implements_iterator
 class ClosingIterator(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """The WSGI specification requires that all middlewares and gateways
     respect the `close` callback of an iterator.  Because it is useful to add
     another close action to a returned iterator and adding a custom iterator
@@ -722,7 +808,10 @@ def wrap_file(environ, file, buffer_size=8192):
 
 @implements_iterator
 class FileWrapper(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """This class can be used to convert a :class:`file`-like object into
     an iterable.  It yields `buffer_size` blocks until the file is fully
     read.
@@ -902,7 +991,10 @@ def make_chunk_iter(stream, separator, limit=None, buffer_size=10 * 1024):
 
 @implements_iterator
 class LimitedStream(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Wraps a stream so that it doesn't read more than n bytes.  If the
     stream is exhausted and the caller tries to get more bytes from it
     :func:`on_exhausted` is called which by default returns an empty

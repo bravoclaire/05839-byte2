@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # This file specifies your Python application's runtime configuration
 # including URL routing, versions, static file uploads, etc. See
 # https://developers.google.com/appengine/docs/python/config/appconfig
@@ -8,15 +9,20 @@
 # id.
 #application: yib-explore
 #version: 1
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 runtime: python27
 api_version: 1
 threadsafe: yes
 
 # Handlers define how to route requests to your application.
 handlers:
+<<<<<<< HEAD
 - url: /favicon\.ico
   static_files: favicon.ico
   upload: favicon\.ico
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 - url: /js
   static_dir: js
   application_readable: true
@@ -29,6 +35,7 @@ handlers:
 - url: /templates
   static_dir: templates
   application_readable: true
+<<<<<<< HEAD
 
 
 # This handler tells app engine how to route requests to a WSGI application.
@@ -51,3 +58,14 @@ libraries:
    version: latest
 -  name: ssl
    version: latest
+=======
+- url: .*
+  script: main.app
+
+
+libraries:
+- name: jinja2
+  version: latest
+- name: webapp2
+  version: latest
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a

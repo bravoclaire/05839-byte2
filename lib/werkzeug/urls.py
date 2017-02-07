@@ -3,6 +3,7 @@
     werkzeug.urls
     ~~~~~~~~~~~~~
 
+<<<<<<< HEAD
     ``werkzeug.urls`` used to provide several wrapper functions for Python 2
     urlparse, whose main purpose were to work around the behavior of the Py2
     stdlib and its lack of unicode support. While this was already a somewhat
@@ -21,6 +22,18 @@ from werkzeug._compat import text_type, PY2, to_unicode, \
     to_native, implements_to_string, try_coerce_native, \
     normalize_string_tuple, make_literal_wrapper, \
     fix_tuple_repr
+=======
+    This module implements various URL related functions.
+
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+    :license: BSD, see LICENSE for more details.
+"""
+import re
+from werkzeug._compat import text_type, PY2, to_unicode, \
+     to_native, implements_to_string, try_coerce_native, \
+     normalize_string_tuple, make_literal_wrapper, \
+     fix_tuple_repr
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 from werkzeug._internal import _encode_idna, _decode_idna
 from werkzeug.datastructures import MultiDict, iter_multi_items
 from collections import namedtuple
@@ -41,12 +54,19 @@ _hextobyte = dict(
 
 
 _URLTuple = fix_tuple_repr(namedtuple('_URLTuple',
+<<<<<<< HEAD
                                       ['scheme', 'netloc', 'path', 'query', 'fragment']))
 
 
 class BaseURL(_URLTuple):
 
     '''Superclass of :py:class:`URL` and :py:class:`BytesURL`.'''
+=======
+    ['scheme', 'netloc', 'path', 'query', 'fragment']))
+
+
+class _URLMixin(object):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     __slots__ = ()
 
     def replace(self, **kwargs):
@@ -184,6 +204,7 @@ class BaseURL(_URLTuple):
         """
         return url_parse(uri_to_iri(self))
 
+<<<<<<< HEAD
     def get_file_location(self, pathformat=None):
         """Returns a tuple with the location of the file in the form
         ``(server, location)``.  If the netloc is empty in the URL or
@@ -242,6 +263,8 @@ class BaseURL(_URLTuple):
 
         return host, path
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     def _split_netloc(self):
         if self._at in self.netloc:
             return self.netloc.split(self._at, 1)
@@ -277,8 +300,12 @@ class BaseURL(_URLTuple):
 
 
 @implements_to_string
+<<<<<<< HEAD
 class URL(BaseURL):
 
+=======
+class URL(_URLTuple, _URLMixin):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Represents a parsed URL.  This behaves like a regular tuple but
     also has some extra attributes that give further insight into the
     URL.
@@ -306,7 +333,11 @@ class URL(BaseURL):
         ]))
         if auth:
             rv = '%s@%s' % (auth, rv)
+<<<<<<< HEAD
         return to_native(rv)
+=======
+        return rv.encode('ascii')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     def encode(self, charset='utf-8', errors='replace'):
         """Encodes the URL to a tuple made out of bytes.  The charset is
@@ -321,8 +352,12 @@ class URL(BaseURL):
         )
 
 
+<<<<<<< HEAD
 class BytesURL(BaseURL):
 
+=======
+class BytesURL(_URLTuple, _URLMixin):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Represents a parsed URL in bytes."""
     __slots__ = ()
     _at = b'@'
@@ -382,7 +417,11 @@ def _url_encode_impl(obj, charset, encode_keys, sort, key):
             key = text_type(key).encode(charset)
         if not isinstance(value, bytes):
             value = text_type(value).encode(charset)
+<<<<<<< HEAD
         yield url_quote_plus(key) + '=' + url_quote_plus(value)
+=======
+        yield url_quote(key) + '=' + url_quote_plus(value)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 def _url_unquote_legacy(value, unsafe=''):
@@ -428,8 +467,13 @@ def url_parse(url, scheme=None, allow_fragments=True):
             if wdelim >= 0:
                 delim = min(delim, wdelim)
         netloc, url = url[2:delim], url[delim:]
+<<<<<<< HEAD
         if (s('[') in netloc and s(']') not in netloc) or \
            (s(']') in netloc and s('[') not in netloc):
+=======
+        if ((s('[') in netloc and s(']') not in netloc) or
+            (s(']') in netloc and s('[') not in netloc)):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             raise ValueError('Invalid IPv6 URL')
 
     if allow_fragments and s('#') in url:
@@ -561,6 +605,7 @@ def url_fix(s, charset='utf-8'):
     :param charset: The target charset for the URL if the url was given as
                     unicode string.
     """
+<<<<<<< HEAD
     # First step is to switch to unicode processing and to convert
     # backslashes (which are invalid in URLs anyways) to slashes.  This is
     # consistent with what Chrome does.
@@ -577,6 +622,12 @@ def url_fix(s, charset='utf-8'):
     anchor = url_quote_plus(url.fragment, charset, safe=':&%=+$!*\'(),')
     return to_native(url_unparse((url.scheme, url.encode_netloc(),
                                   path, qs, anchor)))
+=======
+    scheme, netloc, path, qs, anchor = url_parse(to_unicode(s, charset, 'replace'))
+    path = url_quote(path, charset, safe='/%+$!*\'(),')
+    qs = url_quote_plus(qs, charset, safe=':&%=+$!*\'(),')
+    return to_native(url_unparse((scheme, netloc, path, qs, anchor)))
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 def uri_to_iri(uri, charset='utf-8', errors='replace'):
@@ -605,13 +656,22 @@ def uri_to_iri(uri, charset='utf-8', errors='replace'):
         uri = url_unparse(uri)
     uri = url_parse(to_unicode(uri, charset))
     path = url_unquote(uri.path, charset, errors, '%/;?')
+<<<<<<< HEAD
     query = url_unquote(uri.query, charset, errors, '%;/?:@&=+,$#')
     fragment = url_unquote(uri.fragment, charset, errors, '%;/?:@&=+,$#')
+=======
+    query = url_unquote(uri.query, charset, errors, '%;/?:@&=+,$')
+    fragment = url_unquote(uri.fragment, charset, errors, '%;/?:@&=+,$')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     return url_unparse((uri.scheme, uri.decode_netloc(),
                         path, query, fragment))
 
 
+<<<<<<< HEAD
 def iri_to_uri(iri, charset='utf-8', errors='strict', safe_conversion=False):
+=======
+def iri_to_uri(iri, charset='utf-8', errors='strict'):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     r"""
     Converts any unicode based IRI to an acceptable ASCII URI. Werkzeug always
     uses utf-8 URLs internally because this is what browsers and HTTP do as
@@ -625,6 +685,7 @@ def iri_to_uri(iri, charset='utf-8', errors='strict', safe_conversion=False):
     >>> iri_to_uri(u'http://üser:pässword@☃.net/påth')
     'http://%C3%BCser:p%C3%A4ssword@xn--n3h.net/p%C3%A5th'
 
+<<<<<<< HEAD
     There is a general problem with IRI and URI conversion with some
     protocols that appear in the wild that are in violation of the URI
     specification.  In places where Werkzeug goes through a forced IRI to
@@ -668,6 +729,18 @@ def iri_to_uri(iri, charset='utf-8', errors='strict', safe_conversion=False):
     iri = url_parse(to_unicode(iri, charset, errors))
 
     netloc = iri.encode_netloc()
+=======
+    .. versionadded:: 0.6
+
+    :param iri: The IRI to convert.
+    :param charset: The charset for the URI.
+    """
+    if isinstance(iri, tuple):
+        iri = url_unparse(iri)
+    iri = url_parse(to_unicode(iri, charset, errors))
+
+    netloc = iri.encode_netloc().decode('ascii')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     path = url_quote(iri.path, charset, errors, '/:~+%')
     query = url_quote(iri.query, charset, errors, '%&[]:;$*()+,!?*/=')
     fragment = url_quote(iri.fragment, charset, errors, '=%&[]:;$()+,!?*/')
@@ -910,7 +983,10 @@ def url_join(base, url, allow_fragments=True):
 
 
 class Href(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Implements a callable that constructs URLs with the given base. The
     function can be called with any number of positional and keyword
     arguments which than are used to assemble the URL.  Works with URLs
@@ -987,7 +1063,11 @@ class Href(object):
             query = dict([(k.endswith('_') and k[:-1] or k, v)
                           for k, v in query.items()])
         path = '/'.join([to_unicode(url_quote(x, self.charset), 'ascii')
+<<<<<<< HEAD
                          for x in path if x is not None]).lstrip('/')
+=======
+                        for x in path if x is not None]).lstrip('/')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         rv = self.base
         if path:
             if not rv.endswith('/'):

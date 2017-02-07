@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # flake8: noqa
 # This whole file is full of lint errors
 import codecs
@@ -6,6 +7,11 @@ import operator
 import functools
 import warnings
 
+=======
+import sys
+import operator
+import functools
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 try:
     import builtins
 except ImportError:
@@ -13,7 +19,10 @@ except ImportError:
 
 
 PY2 = sys.version_info[0] == 2
+<<<<<<< HEAD
 WIN = sys.platform.startswith('win')
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 _identity = lambda x: x
 
@@ -22,6 +31,10 @@ if PY2:
     text_type = unicode
     string_types = (str, unicode)
     integer_types = (int, long)
+<<<<<<< HEAD
+=======
+    int_to_byte = chr
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     iterkeys = lambda d, *args, **kwargs: d.iterkeys(*args, **kwargs)
     itervalues = lambda d, *args, **kwargs: d.itervalues(*args, **kwargs)
@@ -30,8 +43,12 @@ if PY2:
     iterlists = lambda d, *args, **kwargs: d.iterlists(*args, **kwargs)
     iterlistvalues = lambda d, *args, **kwargs: d.iterlistvalues(*args, **kwargs)
 
+<<<<<<< HEAD
     int_to_byte = chr
     iter_bytes = iter
+=======
+    iter_bytes = lambda x: iter(x)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     exec('def reraise(tp, value, tb=None):\n raise tp, value, tb')
 
@@ -73,7 +90,11 @@ if PY2:
     NativeStringIO = BytesIO
 
     def make_literal_wrapper(reference):
+<<<<<<< HEAD
         return _identity
+=======
+        return lambda x: x
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     def normalize_string_tuple(tup):
         """Normalizes a string tuple to a common type. Following Python 2
@@ -88,7 +109,11 @@ if PY2:
         leave it as unicode.
         """
         try:
+<<<<<<< HEAD
             return to_native(s)
+=======
+            return str(s)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         except UnicodeError:
             return s
 
@@ -130,7 +155,13 @@ else:
     iterlistvalues = lambda d, *args, **kwargs: iter(d.listvalues(*args, **kwargs))
 
     int_to_byte = operator.methodcaller('to_bytes', 1, 'big')
+<<<<<<< HEAD
     iter_bytes = functools.partial(map, int_to_byte)
+=======
+
+    def iter_bytes(b):
+        return map(int_to_byte, b)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     def reraise(tp, value, tb=None):
         if value.__traceback__ is not tb:
@@ -150,12 +181,19 @@ else:
     from io import StringIO, BytesIO
     NativeStringIO = StringIO
 
+<<<<<<< HEAD
     _latin1_encode = operator.methodcaller('encode', 'latin1')
 
     def make_literal_wrapper(reference):
         if isinstance(reference, text_type):
             return _identity
         return _latin1_encode
+=======
+    def make_literal_wrapper(reference):
+        if isinstance(reference, text_type):
+            return lambda x: x
+        return lambda x: x.encode('latin1')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     def normalize_string_tuple(tup):
         """Ensures that all types in the tuple are either strings
@@ -166,24 +204,44 @@ else:
         for arg in tupiter:
             if isinstance(arg, text_type) != is_text:
                 raise TypeError('Cannot mix str and bytes arguments (got %s)'
+<<<<<<< HEAD
                                 % repr(tup))
         return tup
 
     try_coerce_native = _identity
     wsgi_get_bytes = _latin1_encode
+=======
+                    % repr(tup))
+        return tup
+
+    try_coerce_native = _identity
+
+    def wsgi_get_bytes(s):
+        return s.encode('latin1')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     def wsgi_decoding_dance(s, charset='utf-8', errors='replace'):
         return s.encode('latin1').decode(charset, errors)
 
     def wsgi_encoding_dance(s, charset='utf-8', errors='replace'):
+<<<<<<< HEAD
         if isinstance(s, text_type):
             s = s.encode(charset)
         return s.decode('latin1', errors)
+=======
+        if isinstance(s, bytes):
+            return s.decode('latin1', errors)
+        return s.encode(charset).decode('latin1', errors)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     def to_bytes(x, charset=sys.getdefaultencoding(), errors='strict'):
         if x is None:
             return None
+<<<<<<< HEAD
         if isinstance(x, (bytes, bytearray, memoryview)):  # noqa
+=======
+        if isinstance(x, (bytes, bytearray, memoryview)):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             return bytes(x)
         if isinstance(x, str):
             return x.encode(charset, errors)

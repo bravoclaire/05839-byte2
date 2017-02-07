@@ -67,7 +67,11 @@ r'''
     or as named parameters, pretty much like Python function calls.
 
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 '''
 from __future__ import print_function
@@ -88,7 +92,11 @@ argument_types = {
 
 
 converters = {
+<<<<<<< HEAD
     'boolean': lambda x: x.lower() in ('1', 'true', 'yes', 'on'),
+=======
+    'boolean':  lambda x: x.lower() in ('1', 'true', 'yes', 'on'),
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     'string':   str,
     'integer':  int,
     'float':    float
@@ -194,7 +202,12 @@ def find_actions(namespace, action_prefix):
 
 def print_usage(actions):
     """Print the usage information.  (Help screen)"""
+<<<<<<< HEAD
     actions = sorted(iteritems(actions))
+=======
+    actions = actions.items()
+    actions.sort()
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     print('usage: %s <action> [<options>]' % basename(sys.argv[0]))
     print('       %s --help' % basename(sys.argv[0]))
     print()
@@ -259,7 +272,10 @@ def make_shell(init_func=None, banner=None, use_ipython=True):
         banner = 'Interactive Werkzeug Shell'
     if init_func is None:
         init_func = dict
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     def action(ipython=use_ipython):
         """Start a new interactive python session."""
         namespace = init_func()
@@ -310,9 +326,14 @@ def make_runserver(app_factory, hostname='localhost', port=5000,
         """Start a new development server."""
         from werkzeug.serving import run_simple
         app = app_factory()
+<<<<<<< HEAD
         run_simple(hostname, port, app,
                    use_reloader=reloader, use_debugger=debugger,
                    use_evalex=evalex, extra_files=extra_files,
                    reloader_interval=1, threaded=threaded, processes=processes,
+=======
+        run_simple(hostname, port, app, reloader, debugger, evalex,
+                   extra_files, 1, threaded, processes,
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                    static_files=static_files, ssl_context=ssl_context)
     return action

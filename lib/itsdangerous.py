@@ -6,7 +6,11 @@
     A module that implements various functions to deal with untrusted
     sources.  Mainly useful for web applications.
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by Armin Ronacher and the Django Software Foundation.
+=======
+    :copyright: (c) 2011 by Armin Ronacher and the Django Software Foundation.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 
@@ -124,10 +128,13 @@ class BadPayload(BadData):
     that.  The original exception that caused that will be stored on the
     exception as :attr:`original_error`.
 
+<<<<<<< HEAD
     This can also happen with a :class:`JSONWebSignatureSerializer` that
     is subclassed and uses a different serializer for the payload than
     the expected one.
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     .. versionadded:: 0.15
     """
 
@@ -170,6 +177,7 @@ class BadTimeSignature(BadSignature):
         self.date_signed = date_signed
 
 
+<<<<<<< HEAD
 class BadHeader(BadSignature):
     """Raised if a signed header is invalid in some form.  This only
     happens for serializers that have a header that goes with the
@@ -191,6 +199,8 @@ class BadHeader(BadSignature):
         self.original_error = original_error
 
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 class SignatureExpired(BadTimeSignature):
     """Signature timestamp is older than required max_age.  This is a
     subclass of :exc:`BadTimeSignature` so you can use the baseclass for
@@ -355,10 +365,14 @@ class Signer(object):
     def verify_signature(self, value, sig):
         """Verifies the signature for the given value."""
         key = self.derive_key()
+<<<<<<< HEAD
         try:
             sig = base64_decode(sig)
         except Exception:
             return False
+=======
+        sig = base64_decode(sig)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         return self.algorithm.verify_signature(key, value, sig)
 
     def unsign(self, signed_value):
@@ -539,7 +553,11 @@ class Serializer(object):
             return serializer.loads(payload)
         except Exception as e:
             raise BadPayload('Could not load the payload because an '
+<<<<<<< HEAD
                 'exception occurred on unserializing the data',
+=======
+                'exception ocurred on unserializing the data',
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                 original_error=e)
 
     def dump_payload(self, obj):
@@ -685,14 +703,18 @@ class JSONWebSignatureSerializer(Serializer):
         base64d_header, base64d_payload = payload.split(b'.', 1)
         try:
             json_header = base64_decode(base64d_header)
+<<<<<<< HEAD
         except Exception as e:
             raise BadHeader('Could not base64 decode the header because of '
                 'an exception', original_error=e)
         try:
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             json_payload = base64_decode(base64d_payload)
         except Exception as e:
             raise BadPayload('Could not base64 decode the payload because of '
                 'an exception', original_error=e)
+<<<<<<< HEAD
         try:
             header = Serializer.load_payload(self, json_header,
                 serializer=json)
@@ -702,6 +724,12 @@ class JSONWebSignatureSerializer(Serializer):
         if not isinstance(header, dict):
             raise BadHeader('Header payload is not a JSON object',
                 header=header)
+=======
+        header = Serializer.load_payload(self, json_header,
+            serializer=json)
+        if not isinstance(header, dict):
+            raise BadPayload('Header payload is not a JSON object')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         payload = Serializer.load_payload(self, json_payload)
         if return_header:
             return payload, header
@@ -749,8 +777,12 @@ class JSONWebSignatureSerializer(Serializer):
             self.make_signer(salt, self.algorithm).unsign(want_bytes(s)),
             return_header=True)
         if header.get('alg') != self.algorithm_name:
+<<<<<<< HEAD
             raise BadHeader('Algorithm mismatch', header=header,
                             payload=payload)
+=======
+            raise BadSignature('Algorithm mismatch')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         if return_header:
             return payload, header
         return payload

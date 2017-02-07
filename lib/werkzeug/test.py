@@ -5,7 +5,11 @@
 
     This module implements a client to WSGI applications for testing.
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 import sys
@@ -22,6 +26,7 @@ except ImportError:
     from urllib.request import Request as U2Request
 try:
     from http.cookiejar import CookieJar
+<<<<<<< HEAD
 except ImportError:  # Py2
     from cookielib import CookieJar
 
@@ -36,6 +41,22 @@ from werkzeug.wsgi import get_host, get_current_url, ClosingIterator
 from werkzeug.utils import dump_cookie
 from werkzeug.datastructures import FileMultiDict, MultiDict, \
     CombinedMultiDict, Headers, FileStorage
+=======
+except ImportError: # Py2
+    from cookielib import CookieJar
+
+from werkzeug._compat import iterlists, iteritems, itervalues, to_native, \
+     string_types, text_type, reraise, wsgi_encoding_dance, \
+     make_literal_wrapper
+from werkzeug._internal import _empty_stream, _get_environ
+from werkzeug.wrappers import BaseRequest
+from werkzeug.urls import url_encode, url_fix, iri_to_uri, url_unquote, \
+     url_unparse, url_parse
+from werkzeug.wsgi import get_host, get_current_url, ClosingIterator
+from werkzeug.utils import dump_cookie
+from werkzeug.datastructures import FileMultiDict, MultiDict, \
+     CombinedMultiDict, Headers, FileStorage
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 def stream_encode_multipart(values, use_tempfile=True, threshold=1024 * 500,
@@ -97,12 +118,20 @@ def stream_encode_multipart(values, use_tempfile=True, threshold=1024 * 500,
                         break
                     write_binary(chunk)
             else:
+<<<<<<< HEAD
                 if not isinstance(value, string_types):
                     value = str(value)
                 else:
                     value = to_bytes(value, charset)
                 write('\r\n\r\n')
                 write_binary(value)
+=======
+                if isinstance(value, string_types):
+                    value = to_native(value, charset)
+                else:
+                    value = str(value)
+                write('\r\n\r\n' + value)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             write('\r\n')
     write('--%s--\r\n' % boundary)
 
@@ -129,7 +158,10 @@ def File(fd, filename=None, mimetype=None):
 
 
 class _TestCookieHeaders(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """A headers adapter for cookielib
     """
 
@@ -153,7 +185,10 @@ class _TestCookieHeaders(object):
 
 
 class _TestCookieResponse(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Something that looks like a httplib.HTTPResponse, but is actually just an
     adapter for our test responses to make them available for cookielib.
     """
@@ -166,7 +201,10 @@ class _TestCookieResponse(object):
 
 
 class _TestCookieJar(CookieJar):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """A cookielib.CookieJar modified to inject and read cookie headers from
     and to wsgi environments, and wsgi application responses.
     """
@@ -210,7 +248,10 @@ def _iter_data(data):
 
 
 class EnvironBuilder(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """This class can be used to conveniently create a WSGI environment
     for testing purposes.  It can be used to quickly create WSGI environments
     or request objects from arbitrary data.
@@ -383,9 +424,15 @@ class EnvironBuilder(object):
     def _get_content_type(self):
         ct = self.headers.get('Content-Type')
         if ct is None and not self._input_stream:
+<<<<<<< HEAD
             if self._files:
                 return 'multipart/form-data'
             elif self._form:
+=======
+            if self.method in ('POST', 'PUT', 'PATCH'):
+                if self._files:
+                    return 'multipart/form-data'
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                 return 'application/x-www-form-urlencoded'
             return None
         return ct
@@ -419,7 +466,10 @@ class EnvironBuilder(object):
 
     def form_property(name, storage, doc):
         key = '_' + name
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         def getter(self):
             if self._input_stream is not None:
                 raise AttributeError('an input stream is defined')
@@ -427,9 +477,13 @@ class EnvironBuilder(object):
             if rv is None:
                 rv = storage()
                 setattr(self, key, rv)
+<<<<<<< HEAD
 
             return rv
 
+=======
+            return rv
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         def setter(self, value):
             self._input_stream = None
             setattr(self, key, value)
@@ -543,7 +597,11 @@ class EnvironBuilder(object):
                 stream_encode_multipart(values, charset=self.charset)
             content_type += '; boundary="%s"' % boundary
         elif content_type == 'application/x-www-form-urlencoded':
+<<<<<<< HEAD
             # XXX: py2v3 review
+=======
+            #py2v3 review
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             values = url_encode(self.form, charset=self.charset)
             values = values.encode('ascii')
             content_length = len(values)
@@ -597,7 +655,10 @@ class EnvironBuilder(object):
 
 
 class ClientRedirectError(Exception):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """
     If a redirect loop is detected when using follow_redirects=True with
     the :cls:`Client`, then this exception is raised.
@@ -605,7 +666,10 @@ class ClientRedirectError(Exception):
 
 
 class Client(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """This class allows to send requests to a wrapped application.
 
     The response wrapper can be a class or factory function that takes
@@ -689,12 +753,15 @@ class Client(object):
             raise RuntimeError('%r does not support redirect to '
                                'external targets' % self.__class__)
 
+<<<<<<< HEAD
         status_code = int(response[1].split(None, 1)[0])
         if status_code == 307:
             method = environ['REQUEST_METHOD']
         else:
             method = 'GET'
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         # For redirect handling we temporarily disable the response
         # wrapper.  This is not threadsafe but not a real concern
         # since the test client must not be shared anyways.
@@ -703,7 +770,11 @@ class Client(object):
         try:
             return self.open(path=script_root, base_url=base_url,
                              query_string=qs, as_tuple=True,
+<<<<<<< HEAD
                              buffered=buffered, method=method)
+=======
+                             buffered=buffered)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         finally:
             self.response_wrapper = old_response_wrapper
 
@@ -763,8 +834,12 @@ class Client(object):
                 raise ClientRedirectError('loop detected')
             redirect_chain.append(new_redirect_entry)
             environ, response = self.resolve_redirect(response, new_location,
+<<<<<<< HEAD
                                                       environ,
                                                       buffered=buffered)
+=======
+                                                      environ, buffered=buffered)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
         if self.response_wrapper is not None:
             response = self.response_wrapper(*response)
@@ -868,29 +943,51 @@ def run_wsgi_app(app, environ, buffered=False):
         response[:] = [status, headers]
         return buffer.append
 
+<<<<<<< HEAD
     app_rv = app(environ, start_response)
     close_func = getattr(app_rv, 'close', None)
     app_iter = iter(app_rv)
+=======
+    app_iter = app(environ, start_response)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     # when buffering we emit the close call early and convert the
     # application iterator into a regular list
     if buffered:
+<<<<<<< HEAD
+=======
+        close_func = getattr(app_iter, 'close', None)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         try:
             app_iter = list(app_iter)
         finally:
             if close_func is not None:
                 close_func()
 
+<<<<<<< HEAD
     # otherwise we iterate the application iter until we have a response, chain
     # the already received data with the already collected data and wrap it in
     # a new `ClosingIterator` if we need to restore a `close` callable from the
     # original return value.
+=======
+    # otherwise we iterate the application iter until we have
+    # a response, chain the already received data with the already
+    # collected data and wrap it in a new `ClosingIterator` if
+    # we have a close callable.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     else:
         while not response:
             buffer.append(next(app_iter))
         if buffer:
+<<<<<<< HEAD
             app_iter = chain(buffer, app_iter)
         if close_func is not None and app_iter is not app_rv:
             app_iter = ClosingIterator(app_iter, close_func)
+=======
+            close_func = getattr(app_iter, 'close', None)
+            app_iter = chain(buffer, app_iter)
+            if close_func is not None:
+                app_iter = ClosingIterator(app_iter, close_func)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     return app_iter, response[0], Headers(response[1])

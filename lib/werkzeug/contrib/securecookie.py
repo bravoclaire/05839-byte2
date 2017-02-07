@@ -85,7 +85,11 @@ r"""
             request.client_session.save_cookie(response)
             return response(environ, start_response)
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 import pickle
@@ -103,12 +107,18 @@ from werkzeug._compat import to_native
 
 
 class UnquoteError(Exception):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Internal exception used to signal failures on quoting."""
 
 
 class SecureCookie(ModificationTrackingDict):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Represents a secure cookie.  You can subclass this class and provide
     an alternative mac method.  The import thing is that the mac method
     is a function with a similar interface to the hashlib.  Required
@@ -250,7 +260,11 @@ class SecureCookie(ModificationTrackingDict):
             mac = hmac(secret_key, None, cls.hash_method)
             for item in data.split(b'&'):
                 mac.update(b'|' + item)
+<<<<<<< HEAD
                 if b'=' not in item:
+=======
+                if not b'=' in item:
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                     items = None
                     break
                 key, value = item.split(b'=', 1)

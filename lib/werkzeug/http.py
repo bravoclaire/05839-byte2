@@ -13,24 +13,37 @@
     module.
 
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 import re
 from time import time, gmtime
 try:
     from email.utils import parsedate_tz
+<<<<<<< HEAD
 except ImportError:  # pragma: no cover
     from email.Utils import parsedate_tz
 try:
     from urllib2 import parse_http_list as _parse_list_header
 except ImportError:  # pragma: no cover
+=======
+except ImportError: # pragma: no cover
+    from email.Utils import parsedate_tz
+try:
+    from urllib2 import parse_http_list as _parse_list_header
+except ImportError: # pragma: no cover
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     from urllib.request import parse_http_list as _parse_list_header
 from datetime import datetime, timedelta
 from hashlib import md5
 import base64
 
 from werkzeug._internal import _cookie_quote, _make_cookie_domain, \
+<<<<<<< HEAD
     _cookie_parse_impl
 from werkzeug._compat import to_unicode, iteritems, text_type, \
     string_types, try_coerce_native, to_bytes, PY2, \
@@ -55,16 +68,32 @@ _accept_re = re.compile(
               [^,]*                 # "extension" accept params: who cares?
             )?                      # accept params are optional
         ''', re.VERBOSE)
+=======
+     _cookie_parse_impl
+from werkzeug._compat import to_unicode, iteritems, text_type, \
+     string_types, try_coerce_native, to_bytes, PY2, \
+     integer_types
+
+
+# incorrect
+_cookie_charset = 'latin1'
+_accept_re = re.compile(r'([^\s;,]+)(?:[^,]*?;\s*q=(\d*(?:\.\d+)?))?')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 _token_chars = frozenset("!#$%&'*+-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                          '^_`abcdefghijklmnopqrstuvwxyz|~')
 _etag_re = re.compile(r'([Ww]/)?(?:"(.*?)"|(.*?))(?:\s*,\s*|$)')
 _unsafe_header_chars = set('()<>@,;:\"/[]?={} \t')
 _quoted_string_re = r'"[^"\\]*(?:\\.[^"\\]*)*"'
+<<<<<<< HEAD
 _option_header_piece_re = re.compile(
     r';\s*(%s|[^\s;,=]+)\s*(?:=\s*(%s|[^;,]+)?)?\s*' %
     (_quoted_string_re, _quoted_string_re)
 )
 _option_header_start_mime_type = re.compile(r',\s*([^;,\s]+)([;,]\s*.+)?')
+=======
+_option_header_piece_re = re.compile(r';\s*(%s|[^\s;=]+)\s*(?:=\s*(%s|[^;]+))?\s*' %
+    (_quoted_string_re, _quoted_string_re))
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 _entity_headers = frozenset([
     'allow', 'content-encoding', 'content-language', 'content-length',
@@ -116,15 +145,26 @@ HTTP_STATUS_CODES = {
     415:    'Unsupported Media Type',
     416:    'Requested Range Not Satisfiable',
     417:    'Expectation Failed',
+<<<<<<< HEAD
     418:    'I\'m a teapot',  # see RFC 2324
+=======
+    418:    'I\'m a teapot',        # see RFC 2324
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     422:    'Unprocessable Entity',
     423:    'Locked',
     424:    'Failed Dependency',
     426:    'Upgrade Required',
+<<<<<<< HEAD
     428:    'Precondition Required',  # see RFC 6585
     429:    'Too Many Requests',
     431:    'Request Header Fields Too Large',
     449:    'Retry With',  # proprietary MS extension
+=======
+    428:    'Precondition Required', # see RFC 6585
+    429:    'Too Many Requests',
+    431:    'Request Header Fields Too Large',
+    449:    'Retry With',           # proprietary MS extension
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     500:    'Internal Server Error',
     501:    'Not Implemented',
     502:    'Bad Gateway',
@@ -142,7 +182,11 @@ def wsgi_to_bytes(data):
     """
     if isinstance(data, bytes):
         return data
+<<<<<<< HEAD
     return data.encode('latin1')  # XXX: utf8 fallback?
+=======
+    return data.encode('latin1') #XXX: utf8 fallback?
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 def bytes_to_wsgi(data):
@@ -305,7 +349,11 @@ def parse_dict_header(value, cls=dict):
     """
     result = cls()
     if not isinstance(value, text_type):
+<<<<<<< HEAD
         # XXX: validate
+=======
+        #XXX: validate
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         value = bytes_to_wsgi(value)
     for item in _parse_list_header(value):
         if '=' not in item:
@@ -318,7 +366,11 @@ def parse_dict_header(value, cls=dict):
     return result
 
 
+<<<<<<< HEAD
 def parse_options_header(value, multiple=False):
+=======
+def parse_options_header(value):
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Parse a ``Content-Type`` like header into a tuple with the content
     type and the options:
 
@@ -332,14 +384,27 @@ def parse_options_header(value, multiple=False):
     .. versionadded:: 0.5
 
     :param value: the header to parse.
+<<<<<<< HEAD
     :param multiple: Whether try to parse and return multiple MIME types
     :return: (mimetype, options) or (mimetype, options, mimetype, options, …)
              if multiple=True
     """
+=======
+    :return: (str, options)
+    """
+    def _tokenize(string):
+        for match in _option_header_piece_re.finditer(string):
+            key, value = match.groups()
+            key = unquote_header_value(key)
+            if value is not None:
+                value = unquote_header_value(value, key == 'filename')
+            yield key, value
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     if not value:
         return '', {}
 
+<<<<<<< HEAD
     result = []
 
     value = "," + value.replace("\n", ",")
@@ -369,6 +434,12 @@ def parse_options_header(value, multiple=False):
         value = rest
 
     return tuple(result)
+=======
+    parts = _tokenize(';' + value)
+    name = next(parts)[0]
+    extra = dict(parts)
+    return name, extra
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 def parse_accept_header(value, cls=None):
@@ -478,14 +549,22 @@ def parse_authorization_header(value):
     if auth_type == b'basic':
         try:
             username, password = base64.b64decode(auth_info).split(b':', 1)
+<<<<<<< HEAD
         except Exception:
+=======
+        except Exception as e:
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             return
         return Authorization('basic', {'username':  bytes_to_wsgi(username),
                                        'password': bytes_to_wsgi(password)})
     elif auth_type == b'digest':
         auth_map = parse_dict_header(auth_info)
         for key in 'username', 'realm', 'nonce', 'uri', 'response':
+<<<<<<< HEAD
             if key not in auth_map:
+=======
+            if not key in auth_map:
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                 return
         if 'qop' in auth_map:
             if not auth_map.get('nc') or not auth_map.get('cnonce'):
@@ -716,7 +795,11 @@ def parse_date(value):
                 elif year >= 69 and year <= 99:
                     year += 1900
                 return datetime(*((year,) + t[1:7])) - \
+<<<<<<< HEAD
                     timedelta(seconds=t[-1] or 0)
+=======
+                       timedelta(seconds=t[-1] or 0)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             except (ValueError, OverflowError):
                 return None
 
@@ -1007,13 +1090,23 @@ def is_byte_range_valid(start, stop, length):
 
 # circular dependency fun
 from werkzeug.datastructures import Accept, HeaderSet, ETags, Authorization, \
+<<<<<<< HEAD
     WWWAuthenticate, TypeConversionDict, IfRange, Range, ContentRange, \
     RequestCacheControl
+=======
+     WWWAuthenticate, TypeConversionDict, IfRange, Range, ContentRange, \
+     RequestCacheControl
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 # DEPRECATED
 # backwards compatible imports
+<<<<<<< HEAD
 from werkzeug.datastructures import (  # noqa
     MIMEAccept, CharsetAccept, LanguageAccept, Headers
 )
+=======
+from werkzeug.datastructures import MIMEAccept, CharsetAccept, \
+     LanguageAccept, Headers
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 from werkzeug.urls import iri_to_uri

@@ -5,7 +5,11 @@
 
     Security related helpers such as secure password hashing tools.
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 import os
@@ -19,7 +23,11 @@ from operator import xor
 from itertools import starmap
 
 from werkzeug._compat import range_type, PY2, text_type, izip, to_bytes, \
+<<<<<<< HEAD
     string_types, to_native
+=======
+     string_types, to_native
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 SALT_CHARS = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
@@ -48,23 +56,35 @@ _hash_funcs = _find_hashlib_algorithms()
 
 def pbkdf2_hex(data, salt, iterations=DEFAULT_PBKDF2_ITERATIONS,
                keylen=None, hashfunc=None):
+<<<<<<< HEAD
     """Like :func:`pbkdf2_bin`, but returns a hex-encoded string.
+=======
+    """Like :func:`pbkdf2_bin` but returns a hex encoded string.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
     .. versionadded:: 0.9
 
     :param data: the data to derive.
     :param salt: the salt for the derivation.
     :param iterations: the number of iterations.
+<<<<<<< HEAD
     :param keylen: the length of the resulting key.  If not provided,
                    the digest size will be used.
     :param hashfunc: the hash function to use.  This can either be the
                      string name of a known hash function, or a function
+=======
+    :param keylen: the length of the resulting key.  If not provided
+                   the digest size will be used.
+    :param hashfunc: the hash function to use.  This can either be the
+                     string name of a known hash function or a function
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
                      from the hashlib module.  Defaults to sha1.
     """
     rv = pbkdf2_bin(data, salt, iterations, keylen, hashfunc)
     return to_native(codecs.encode(rv, 'hex_codec'))
 
 
+<<<<<<< HEAD
 _has_native_pbkdf2 = hasattr(hashlib, 'pbkdf2_hmac')
 
 
@@ -73,6 +93,13 @@ def pbkdf2_bin(data, salt, iterations=DEFAULT_PBKDF2_ITERATIONS,
     """Returns a binary digest for the PBKDF2 hash algorithm of `data`
     with the given `salt`. It iterates `iterations` times and produces a
     key of `keylen` bytes. By default, SHA-1 is used as hash function;
+=======
+def pbkdf2_bin(data, salt, iterations=DEFAULT_PBKDF2_ITERATIONS,
+               keylen=None, hashfunc=None):
+    """Returns a binary digest for the PBKDF2 hash algorithm of `data`
+    with the given `salt`. It iterates `iterations` time and produces a
+    key of `keylen` bytes. By default SHA-1 is used as hash function,
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     a different hashlib `hashfunc` can be provided.
 
     .. versionadded:: 0.9
@@ -90,6 +117,7 @@ def pbkdf2_bin(data, salt, iterations=DEFAULT_PBKDF2_ITERATIONS,
         hashfunc = _hash_funcs[hashfunc]
     elif not hashfunc:
         hashfunc = hashlib.sha1
+<<<<<<< HEAD
     data = to_bytes(data)
     salt = to_bytes(salt)
 
@@ -107,6 +135,12 @@ def pbkdf2_bin(data, salt, iterations=DEFAULT_PBKDF2_ITERATIONS,
     if not keylen:
         keylen = mac.digest_size
 
+=======
+    salt = to_bytes(salt)
+    mac = hmac.HMAC(to_bytes(data), None, hashfunc)
+    if not keylen:
+        keylen = mac.digest_size
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     def _pseudorandom(x, mac=mac):
         h = mac.copy()
         h.update(x)
@@ -125,6 +159,7 @@ def safe_str_cmp(a, b):
     """This function compares strings in somewhat constant time.  This
     requires that the length of at least one string is known in advance.
 
+<<<<<<< HEAD
     Returns `True` if the two strings are equal, or `False` if they are not.
 
     .. versionadded:: 0.7
@@ -148,13 +183,34 @@ def safe_str_cmp(a, b):
         for x, y in izip(a, b):
             rv |= x ^ y
 
+=======
+    Returns `True` if the two strings are equal or `False` if they are not.
+
+    .. versionadded:: 0.7
+    """
+    if _builtin_safe_str_cmp is not None:
+        return _builtin_safe_str_cmp(a, b)
+    if len(a) != len(b):
+        return False
+    rv = 0
+    if isinstance(a, bytes) and isinstance(b, bytes) and not PY2:
+        for x, y in izip(a, b):
+            rv |= x ^ y
+    else:
+        for x, y in izip(a, b):
+            rv |= ord(x) ^ ord(y)
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     return rv == 0
 
 
 def gen_salt(length):
     """Generate a random string of SALT_CHARS with specified ``length``."""
     if length <= 0:
+<<<<<<< HEAD
         raise ValueError('Salt length must be positive')
+=======
+        raise ValueError('requested salt of length <= 0')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     return ''.join(_sys_rng.choice(SALT_CHARS) for _ in range_type(length))
 
 
@@ -220,11 +276,19 @@ def generate_password_hash(password, method='pbkdf2:sha1', salt_length=8):
         pbkdf2:sha1:2000$salt$hash
         pbkdf2:sha1$salt$hash
 
+<<<<<<< HEAD
     :param password: the password to hash.
     :param method: the hash method to use (one that hashlib supports). Can
                    optionally be in the format ``pbkdf2:<method>[:iterations]``
                    to enable PBKDF2.
     :param salt_length: the length of the salt in letters.
+=======
+    :param password: the password to hash
+    :param method: the hash method to use (one that hashlib supports), can
+                   optionally be in the format ``pbpdf2:<method>[:iterations]``
+                   to enable PBKDF2.
+    :param salt_length: the length of the salt in letters
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """
     salt = method != 'plain' and gen_salt(salt_length) or ''
     h, actual_method = _hash_internal(method, salt, password)
@@ -239,8 +303,13 @@ def check_password_hash(pwhash, password):
     Returns `True` if the password matched, `False` otherwise.
 
     :param pwhash: a hashed string like returned by
+<<<<<<< HEAD
                    :func:`generate_password_hash`.
     :param password: the plaintext password to compare against the hash.
+=======
+                   :func:`generate_password_hash`
+    :param password: the plaintext password to compare against the hash
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """
     if pwhash.count('$') < 2:
         return False

@@ -8,18 +8,28 @@
     browsers.
 
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 import re
 
 
 class UserAgentParser(object):
+<<<<<<< HEAD
 
     """A simple user agent parser.  Used by the `UserAgent`."""
 
     platforms = (
         ('cros', 'chromeos'),
+=======
+    """A simple user agent parser.  Used by the `UserAgent`."""
+
+    platforms = (
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         ('iphone|ios', 'iphone'),
         ('ipad', 'ipad'),
         (r'darwin|mac|os\s*x', 'macos'),
@@ -34,8 +44,12 @@ class UserAgentParser(object):
         ('sco|unix_sv', 'sco'),
         ('bsd', 'bsd'),
         ('amiga', 'amiga'),
+<<<<<<< HEAD
         ('blackberry|playbook', 'blackberry'),
         ('symbian', 'symbian')
+=======
+        ('blackberry|playbook', 'blackberry')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     )
     browsers = (
         ('googlebot', 'google'),
@@ -47,13 +61,21 @@ class UserAgentParser(object):
         ('chrome', 'chrome'),
         ('firefox|firebird|phoenix|iceweasel', 'firefox'),
         ('galeon', 'galeon'),
+<<<<<<< HEAD
         ('safari|version', 'safari'),
+=======
+        ('safari', 'safari'),
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         ('webkit', 'webkit'),
         ('camino', 'camino'),
         ('konqueror', 'konqueror'),
         ('k-meleon', 'kmeleon'),
         ('netscape', 'netscape'),
+<<<<<<< HEAD
         (r'msie|microsoft\s+internet\s+explorer|trident/.+? rv:', 'msie'),
+=======
+        (r'msie|microsoft\s+internet\s+explorer', 'msie'),
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         ('lynx', 'lynx'),
         ('links', 'links'),
         ('seamonkey|mozilla', 'seamonkey')
@@ -93,7 +115,10 @@ class UserAgentParser(object):
 
 
 class UserAgent(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Represents a user agent.  Pass it a WSGI environment or a user agent
     string and you can inspect some of the details from the user agent
     string via the attributes.  The following attributes exist:
@@ -111,7 +136,10 @@ class UserAgent(object):
        -   `amiga`
        -   `android`
        -   `bsd`
+<<<<<<< HEAD
        -   `chromeos`
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
        -   `hpux`
        -   `iphone`
        -   `ipad`
@@ -192,4 +220,8 @@ class UserAgent(object):
 # it afterwards.  The class itself has the module set to this module so
 # pickle, inspect and similar modules treat the object as if it was really
 # implemented here.
+<<<<<<< HEAD
 from werkzeug.wrappers import UserAgentMixin  # noqa
+=======
+from werkzeug.wrappers import UserAgentMixin
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a

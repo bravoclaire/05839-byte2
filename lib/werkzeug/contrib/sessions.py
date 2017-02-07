@@ -48,11 +48,19 @@ r"""
                 response.set_cookie('cookie_name', request.session.sid)
             return response(environ, start_response)
 
+<<<<<<< HEAD
     :copyright: (c) 2014 by the Werkzeug Team, see AUTHORS for more details.
+=======
+    :copyright: (c) 2013 by the Werkzeug Team, see AUTHORS for more details.
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     :license: BSD, see LICENSE for more details.
 """
 import re
 import os
+<<<<<<< HEAD
+=======
+import sys
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 import tempfile
 from os import path
 from time import time
@@ -65,7 +73,10 @@ from werkzeug.utils import dump_cookie, parse_cookie
 from werkzeug.wsgi import ClosingIterator
 from werkzeug.posixemulation import rename
 from werkzeug._compat import PY2, text_type
+<<<<<<< HEAD
 from werkzeug.filesystem import get_filesystem_encoding
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 _sha1_re = re.compile(r'^[a-f0-9]{40}$')
@@ -74,7 +85,11 @@ _sha1_re = re.compile(r'^[a-f0-9]{40}$')
 def _urandom():
     if hasattr(os, 'urandom'):
         return os.urandom(30)
+<<<<<<< HEAD
     return text_type(random()).encode('ascii')
+=======
+    return random()
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
 
 
 def generate_key(salt=None):
@@ -112,7 +127,10 @@ class ModificationTrackingDict(CallbackDict):
 
 
 class Session(ModificationTrackingDict):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Subclass of a dict that keeps track of direct object changes.  Changes
     in mutable structures are not tracked, for those you have to set
     `modified` to `True` by hand.
@@ -143,7 +161,10 @@ class Session(ModificationTrackingDict):
 
 
 class SessionStore(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Baseclass for all session stores.  The Werkzeug contrib module does not
     implement any useful stores besides the filesystem store, application
     developers are encouraged to create their own stores.
@@ -193,7 +214,10 @@ _fs_transaction_suffix = '.__wz_sess'
 
 
 class FilesystemSessionStore(SessionStore):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """Simple example session store that saves sessions on the filesystem.
     This store works best on POSIX systems and Windows Vista / Windows
     Server 2008 and newer.
@@ -223,7 +247,11 @@ class FilesystemSessionStore(SessionStore):
         self.path = path
         if isinstance(filename_template, text_type) and PY2:
             filename_template = filename_template.encode(
+<<<<<<< HEAD
                 get_filesystem_encoding())
+=======
+                sys.getfilesystemencoding() or 'utf-8')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         assert not filename_template.endswith(_fs_transaction_suffix), \
             'filename templates may not end with %s' % _fs_transaction_suffix
         self.filename_template = filename_template
@@ -235,7 +263,11 @@ class FilesystemSessionStore(SessionStore):
         # you might reconfigure the session object to have a more
         # arbitrary string.
         if isinstance(sid, text_type) and PY2:
+<<<<<<< HEAD
             sid = sid.encode(get_filesystem_encoding())
+=======
+            sid = sid.encode(sys.getfilesystemencoding() or 'utf-8')
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
         return path.join(self.path, self.filename_template % sid)
 
     def save(self, session):
@@ -299,7 +331,10 @@ class FilesystemSessionStore(SessionStore):
 
 
 class SessionMiddleware(object):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
     """A simple middleware that puts the session object of a store provided
     into the WSGI environ.  It automatically sets cookies and restores
     sessions.
@@ -343,10 +378,17 @@ class SessionMiddleware(object):
             if session.should_save:
                 self.store.save(session)
                 headers.append(('Set-Cookie', dump_cookie(self.cookie_name,
+<<<<<<< HEAD
                                                           session.sid, self.cookie_age,
                                                           self.cookie_expires, self.cookie_path,
                                                           self.cookie_domain, self.cookie_secure,
                                                           self.cookie_httponly)))
+=======
+                                session.sid, self.cookie_age,
+                                self.cookie_expires, self.cookie_path,
+                                self.cookie_domain, self.cookie_secure,
+                                self.cookie_httponly)))
+>>>>>>> 2c062edc8dd53b019a957e9fd3cf44e87c16123a
             return start_response(status, headers, exc_info)
         return ClosingIterator(self.app(environ, injecting_start_response),
                                lambda: self.store.save_if_modified(session))
