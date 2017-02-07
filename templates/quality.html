@@ -46,27 +46,56 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
 	<h1>Quality: About This Data Set</h1>
-        <p>Write a brief summary about the quality of the data set here</a></p>
+        <p>In this byte, I explore and clean the dataset mainly by Wrangler and python. Speaking of the quality of the data set, we mainly focus on three aspects: completeness, coherency and correctness.
+        </a></p>
+        <p> Completeness. The data contains many features originally (and even after cleaned). 
+        But many of the columns contain missing values. </p>
+        <p> Coherency. The data is mostly coherent, though it has some redundancy, it's very reasonable and the features of it are highly relative to each other.
+		<p> Correctness. Due to the accountability of the data source, the data is correct. And the analysis can also validate its correctness.      
       </div>
 
     
       <div class="page-header">
 	<h2>Is the data complete?</h2>
-	<p>If not, what is missing and what concerns does it raise?
-	What is your evidence for this?</p>
+	<p>No. The data isn't complete. The columns containing missing data includes: Latitude, Longitude, Aircraft damage, Engine Type, FAR Description, Purpose of Flight, Air Carrier, 
+	Total Fatal Injuries, Total Serious Injuries, Total Minor Injuries, Total Uninjured, Weather Condition, Broad Phase of Flight, 
+	Airport Name, Airport Code, Aircraft Damage, Number of engines.</p>
+	<p>#98 lacks state and city information. I guess because the location is Atlantic Oceans, so the city column is left blank.
+	</p>
+	<p>And the Amateur built column only records No and is blank when the answer is yes.</p>
+	<p>I think the incomepleteness of data may due to personal factors. And it may also because the google fusion table lost some parts of 
+	data when importing dataset from NTSB.</p>
+	<p> The statistics of missing data are shown below.</p>
+     <img src="/static/missing.png" height="500" width="900"> </img>
+</p>
       </div>
       
       <div class="page-header">
 	<h2>Is the data coherent?</h2>
-	<p>Does it make sense relative to itself? Does it match your
-	expectations? Are the distributions sensible? What is your
-	evidence for this?</p>
+	<p> Yes, the data makes sense relative to itself. For example, the location, airport name and country always match each other.
+	And the Injury Severity matches with Total Fatal Injuries, Total Serious Injuries, Total Minor Injuries, Total Uninjured. As shown in the chart below. </p>
+<iframe width="500" height="300" scrolling="no" frameborder="no" src="https://fusiontables.google.com/embedviz?containerId=googft-gviz-canvas&amp;q=select+col9%2C+col18%2C+col19+from+15JHziK2E6wbrqH6TGXk026I7gj7-IcD-4gvhakZe+order+by+col9+asc+limit+100&amp;viz=GVIZ&amp;t=COLUMN&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;width=500&amp;height=300"></iframe>
+	<p>This result also matches my expectations. The distribution is sensible because the fatal events occur least, as shown below.</p>
+<iframe width="500" height="300" scrolling="no" frameborder="no" src="https://fusiontables.google.com/embedviz?containerId=googft-gviz-canvas&amp;q=select+col9%2C+count()+from+15JHziK2E6wbrqH6TGXk026I7gj7-IcD-4gvhakZe+group+by+col9+order+by+count()+asc+limit+10&amp;viz=GVIZ&amp;t=PIE&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;width=500&amp;height=300"></iframe>
       </div>
 
       <div class="page-header">
 	<h2>Is the data correct?</h2>
-	<p>What aspects of this data can you verify? How did you do so? What did
-	you find?</p>
+	<p>Consider the dataset is maintained by a highly-trustable institue, the complete part of the data is supposed to be correct. I randomly pick 10 event ids from
+	 this data set and validate them with the information on the Internet. The result is that all the features match with the information online and the data 
+	 provided by other source. Random sample can really tell something. </p>
+	<p>While searching on the Internet, I find out that some data from other souce is complete. This may prove that the incompleteness of this dataset may due to 
+	bad recording or loss of data while importing and exporting. </p>
+	<p>We can get some results from this dataset.</p>
+	<p>For example, which country occurs most Boeing 737 accidents and incidents from 2002 to 2012?</p>
+    <p>And, the relative frequency of incidents and accidents?</p>
+<p>
+        <iframe width="500" height="300" scrolling="no" frameborder="no" src="https://fusiontables.google.com/embedviz?containerId=googft-gviz-canvas&amp;q=select+col5%2C+count()+from+17MGDLh3cJYnQTsux4cBEjJjMXSX4Axr3bdQaMzjx+group+by+col5+order+by+count()+asc+limit+100&amp;viz=GVIZ&amp;t=PIE&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;width=500&amp;height=300"></iframe>
+        <iframe width="500" height="300" scrolling="no" frameborder="no" src="https://fusiontables.google.com/embedviz?containerId=googft-gviz-canvas&amp;q=select+col1%2C+count()+from+17MGDLh3cJYnQTsux4cBEjJjMXSX4Axr3bdQaMzjx+group+by+col1+order+by+col1+asc+limit+10&amp;viz=GVIZ&amp;t=PIE&amp;uiversion=2&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;width=500&amp;height=300"></iframe>
+</p>
+    Among the countries which encountered Boeying 737 air incidents and accidents from 2002 to 2012, the United Stats encountered the most, Brazil second and UK the third. Incidents happened 
+    slightly more than accidents.
+    And from the visualization we've shown, the fatal injuries not usually occur in air incidents and accidents. </p>
       </div>
 
     </div> <!-- /container -->

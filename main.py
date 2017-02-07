@@ -24,7 +24,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True)
 
 # This API key is provided by google as described in the tutorial
-API_KEY = 'XXxxXxXXXXxxNXXxXXXxxxNNXXxxxxxxxXXXxXX'
+API_KEY = 'AIzaSyDXv-IrJfSep5ZZtHX5meq8TXu_HM4bWdo'
 
 
 # This uses discovery to create an object that can talk to the 
@@ -32,11 +32,11 @@ API_KEY = 'XXxxXxXXXXxxNXXxXXXxxxNNXXxxxxxxxXXXxXX'
 service = build('fusiontables', 'v1', developerKey=API_KEY)
 
 # This is the table id for the fusion table
-TABLE_ID = 'NxxxNXxXxxNxXXXXNXxXXXxXxxxNxXxNxXxxXxxX'
+TABLE_ID = '17MGDLh3cJYnQTsux4cBEjJjMXSX4Axr3bdQaMzjx'
+	
 
 # This is the default columns for the query
 query_cols = []
-query_animals = ['DOG']
 
 # Import the Flask Framework
 from flask import Flask, request
@@ -44,10 +44,12 @@ app = Flask(__name__)
 
 def get_all_data(query):
     response = service.query().sql(sql=query).execute()
+    logging.info(response['columns'])
+    logging.info(response['rows'])
     return response
 
 # make a query given a set of columns to retrieve
-def make_query(cols, animals, limit):
+def make_query(cols, limit):
     string_cols = ""
     if cols == []:
         cols = ['*']
@@ -55,16 +57,11 @@ def make_query(cols, animals, limit):
         string_cols = string_cols + ", " + col
     string_cols = string_cols[2:len(string_cols)]
 
-    string_animals = ""
-    for animal in animals:
-        string_animals = string_animals + ", " + animal
-    string_animals = string_animals[2:len(string_animals)]
-    
-    query = "SELECT " + string_cols + " FROM " + TABLE_ID + " WHERE AnimalType = '" + string_animals + "'"
+    query = "SELECT " + string_cols + " FROM " + TABLE_ID
 
     query = query + " LIMIT " + str(limit)
 
-    logging.info(query)
+    #logging.info(query)
     # query = "SELECT * FROM " + TABLE_ID + " WHERE  AnimalType = 'DOG' LIMIT 2"
 
     return query
@@ -76,16 +73,16 @@ def make_query(cols, animals, limit):
 def index():
     template = JINJA_ENVIRONMENT.get_template('templates/index.html')
     request = service.column().list(tableId=TABLE_ID)
-    allheaders = get_all_data(make_query([], query_animals, 1))
+    allheaders = get_all_data(make_query([], 10))
     logging.info('allheaders')
-    return template.render(allheaders=allheaders['columns'] )
+    return template.render(allheaders=allheaders['columns'], headers=allheaders['columns'], content=allheaders['rows'])
 
 @app.route('/_update_table', methods=['POST']) 
 def update_table():
     logging.info(request.get_json())
     cols = request.json['cols']
     logging.info(cols)
-    result = get_all_data(make_query(cols, query_animals, 100))
+    result = get_all_data(make_query(cols, 100))
     logging.info(result)
     return json.dumps({'content' : result['rows'], 'headers' : result['columns']})
 
